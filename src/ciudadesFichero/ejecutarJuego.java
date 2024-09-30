@@ -6,9 +6,9 @@ import java.io.*;
  * juego de ciudades en fichero de texto para Java
  * 1 pasar un fichero de texto a un archivo mas accesible
  * 2 requisitos para el juego
- * - si la ciudad donde avanzas contiene una A pierdes turno
- * - te puedes mover de arriba abajo a derecha
- * - ganas si la ciudad es americana
+ * -concursan dos jugadores y solo uno participa 
+ * - muevete por ubicación hacia abajo por una ciudad
+ * - adivina la ciudad
  * */
 
 public class ejecutarJuego {
@@ -16,12 +16,14 @@ public class ejecutarJuego {
 	public static void main(String[] args) {
 		String ciudad;
 		
-		//saludoInicial();
-		//juego(convertirFicheroenArray());
+		saludoInicial();
+		juego(convertirFicheroenArray());
 		
-		testArrayListParaUsarConLosDatosDelFicheroProximamente();
-		
-		
+		//testArrayListParaUsarConLosDatosDelFicheroProximamente();
+		ArrayList<String> ciudades = convertirFicheroenArray();
+		//ArrayList<String[]> test = testArrayListParaUsarConLosDatosDelFicheroProximamente();
+		juego(ciudades);
+		finDelPrograma();
 		
 	}
 	
@@ -48,9 +50,9 @@ public class ejecutarJuego {
 		sc.nextLine();
 		
 		if(jug1 < jug2) {
-			System.out.println("Empieza el juego el jugador 2");
+			System.out.println("Participa el jugador " + jugador1);
 		} else {
-			System.out.println("Empieza el jugador 2");
+			System.out.println("Participa el jugador " + jugador2);
 		}
 		
 		
@@ -60,32 +62,30 @@ public class ejecutarJuego {
 			
 		Scanner sc = new Scanner(System.in);
 			
+		int contador = 0;
 		
-			String cambioCiudad = "";
-			int mov1 = 0;
-			int mov2 = 0;
-			int mov3 = 0;
-			int mov4 = 0;
-			
+		while(true) {
+			System.out.println("La ciudad actual es: " + listaParametrizada.get(contador));
 			System.out.println("Elige cuantos movimientos haces hacia abajo: ");
-			mov1 = sc.nextInt();
+			int mov1 = sc.nextInt();
 			sc.nextLine();
-			System.out.println("Elige cuantos movimientos haces hacia arriba: ");
-			mov2 = sc.nextInt();
-			sc.nextLine();
+			System.out.println("Adivina que ciudad viene ahora: ");
+			String ciudadAdivinada = sc.nextLine();
 			
-			System.out.println("Siguiente jugador: ");
+			contador += mov1;
+			System.out.println("La ciudad actual es: " + listaParametrizada.get(contador));
 			
-			System.out.println("Elige cuantos movimientos haces hacia abajo: ");
-			mov3 = sc.nextInt();
-			sc.nextLine();
-			System.out.println("Elige cuantos movimientos haces hacia arriba: ");
-			mov4 = sc.nextInt();
-			sc.nextLine();
+			if(ciudadAdivinada == listaParametrizada.get(contador) ) {
+				System.out.println("GANASTE");
+			} else {
+				System.out.println("PERDISTE");
+				break;
+			}
 			
 			
+		}
 			
-			return cambioCiudad;
+		return listaParametrizada.get(contador -1);
 			
 	}
 	
@@ -114,20 +114,33 @@ public class ejecutarJuego {
 		
 		ArrayList<String> listaCiudades = new ArrayList<String>();
 		
-		try {
+		try (FileInputStream fileInputStream = new FileInputStream(nombreFichero);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream))) {
 			
-			OutputStream outputStream = new FileOutputStream(nombreFichero);
+			String linea;
 			
-			
-		} catch(IOException e) {
-			System.out.println("@@@darevals -> Error en el trato del fichero binario: " + e.getMessage());
-		}
+			while((linea = reader.readLine()) != null){
+				String[] ciudades = linea.split(" ");
+				//System.out.println("@darevals -> la lista de ciduades del array: "ciudades);
 				
-		
-		
+				for(String ciudad : ciudades) {
+					//System.out.println("@@@darevals -> ciudades: " + ciudad);
+					listaCiudades.add(ciudad);
+				}
+				
+			}
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } 
 		
 		
 		return listaCiudades;
+	}
+	
+	public static void finDelPrograma() {
+		System.out.println("TERMINA EL PROGRAMA!!");
 	}
 	
 	
