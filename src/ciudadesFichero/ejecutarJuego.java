@@ -107,8 +107,6 @@ public class ejecutarJuego {
 	}
 	
 	
-	
-	
 	public static ArrayList<String> convertirFicheroenArray() {
 		String nombreFichero = "ciudaes.dat";
 		
@@ -117,18 +115,19 @@ public class ejecutarJuego {
 		try (FileInputStream fileInputStream = new FileInputStream(nombreFichero);
 				BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream))) {
 			
-			String linea;
+		String linea;
 			
-			while((linea = reader.readLine()) != null){
-				String[] ciudades = linea.split(" ");
-				//System.out.println("@darevals -> la lista de ciduades del array: "ciudades);
+		while((linea = reader.readLine()) != null){
+		String[] ciudades = linea.split(" ");
+		//System.out.println("@darevals -> la lista de ciduades del array: "ciudades);
 				
-				for(String ciudad : ciudades) {
-					//System.out.println("@@@darevals -> ciudades: " + ciudad);
-					listaCiudades.add(ciudad);
-				}
+		for(String ciudad : ciudades) {
+		//System.out.println("@@@darevals -> ciudades: " + ciudad);
+				listaCiudades.add(ciudad);
+		}
 				
-			}
+		}
+		
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
